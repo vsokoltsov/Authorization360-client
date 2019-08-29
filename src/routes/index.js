@@ -2,6 +2,7 @@ import VueRouter from 'vue-router'
 
 import { authRoutes } from './auth';
 import { usersRoutes } from './users';
+import { tokenName } from '../utils/api'
 
 export const router = new VueRouter({
     mode: 'history',
@@ -12,8 +13,12 @@ export const router = new VueRouter({
 })
 
 router.beforeEach((to, _, next) => {
-    if (!localStorage.getItem('auth360token') && !to.path.match(/\/auth/)) {
+    const token = localStorage.getItem(tokenName);
+    if (!token && !to.path.match(/\/auth/)) {
         next('/auth')
+    }
+    if (token && to.path.match(/\/auth/)) {
+        next('/users/profile')
     }
     next()
 })

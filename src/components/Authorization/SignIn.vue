@@ -37,7 +37,11 @@ export default {
   },
   methods: {
       submitForm() {
-          console.log(this.email, this.password)
+          const data = {
+              email: this.email,
+              password: this.password
+          }
+          this.$store.dispatch('signIn', data)
       }
   }
 }
