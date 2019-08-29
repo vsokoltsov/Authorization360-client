@@ -1,36 +1,17 @@
 <template>
     <form @submit.prevent="submitForm">
-        <p>
-            <label for="name">Email</label>
-            <input
-                v-model="email"
-                type="email"
-                name="email"
-                >
-            <div class="errors" v-if="errors && errors.email">
-                <ul>
-                    <li v-for="(item, index) in errors.email">
-                        {{ item }}
-                    </li>
-                </ul>
-            </div>
-        </p>
-
-        <p>
-            <label for="password">Password</label>
-            <input
-                v-model="password"
-                type="password"
-                name="password"
-                >
-            <div class="errors" v-if="errors && errors.password">
-                <ul>
-                    <li v-for="(item, index) in errors.password">
-                        {{ item }}
-                    </li>
-                </ul>
-            </div>
-        </p>
+            <b-field 
+                label="Email"
+                :type="{ 'is-danger': errors.email }"
+                :message="errors.email">
+                <b-input type="email" v-model="email"></b-input>
+            </b-field>
+            <b-field 
+                label="Password"
+                :type="{ 'is-danger': errors.password }"
+                :message="errors.password">
+                <b-input type="password" v-model="password"></b-input>
+            </b-field>
         <p> 
             <div class="errors" v-if="errors && errors.user">
                 <ul>
@@ -39,10 +20,7 @@
                     </li>
                 </ul>
             </div>
-            <input
-            type="submit"
-            value="Sign in"
-            >
+            <b-button tag="input" type="is-primary" native-type="submit">Sign in</b-button>
         </p>
     </form>
 </template>
