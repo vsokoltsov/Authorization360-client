@@ -7,10 +7,9 @@ export const authRoutes = [
         path: '/auth', 
         component: AuthPage, 
         redirect: '/auth/sign-in',
-        meta: { layout: 'authorization' },
         children: [
-            { path: 'sign-in', name: 'sign-in', component: SignIn },
-            { path: 'sign-up', name: 'sign-up',component: SignUp }
+            { path: 'sign-in', name: 'sign-in', meta: { layout: 'authorization' }, component: SignIn },
+            { path: 'sign-up', name: 'sign-up', meta: { layout: 'authorization' }, component: SignUp }
         ]
     }
 ]

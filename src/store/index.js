@@ -19,11 +19,14 @@ export const store = new Vuex.Store({
         SET_TOKEN: (state, data) => {
             localStorage.setItem(tokenName, data.token)
         },
+        REMOVE_TOKEN: () => {
+            localStorage.removeItem(tokenName)
+        },
         SET_CURRENT_USER:  (state, payload) => {
             state.current_user = payload.current_user
         },
         REMOVE_CURRENT_USER: state => {
-            state.current_user = null
+            state.current_user = {}
         }
     },
     actions: {
@@ -32,9 +35,10 @@ export const store = new Vuex.Store({
                 .then(response => {
                     commit('SET_TOKEN', response.data)
                     dispatch('currentUser')
+                    return response
                 })
                 .catch(error => {
-                    console.log(error.response)
+                    return error.response
                 })
         },
         signUp({ commit, dispatch }, data) {
@@ -44,17 +48,25 @@ export const store = new Vuex.Store({
                     dispatch('currentUser')
                 })
                 .catch(error => {
-                    console.log(error.response)
+                    return error.response
                 })
         },
         currentUser({ commit }) {
             return axios.get('/users/current')
                 .then(response => {
                     commit('SET_CURRENT_USER', response.data)
+                    return response.data
                 })
                 .catch(error => {
-                    console.log(error.response)
+                    return error.response
                 })
+        },
+        signOut({ commit }) {
+            return new Promise((resolve, reject) => {
+                commit('REMOVE_CURRENT_USER')
+                commit('REMOVE_TOKEN')
+                resolve()
+            })
         }
     },
     strict: true

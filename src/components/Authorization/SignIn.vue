@@ -42,6 +42,9 @@ export default {
               password: this.password
           }
           this.$store.dispatch('signIn', data)
+          .then(response => {
+              this.$router.push({ path: '/users/profile' })
+          })
       }
   }
 }

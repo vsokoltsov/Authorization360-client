@@ -51,7 +51,9 @@ export default {
               password: this.password,
               password_confirmation: this.passwordConfirmation
           }
-          this.$store.dispatch('signUp', data)
+          this.$store.dispatch('signUp', data).then(response => {
+              this.$router.push({ path: '/users/profile' })
+          })
       }
   }
 }
