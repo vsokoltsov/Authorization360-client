@@ -9,10 +9,18 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         current_user: {},
+        signInErrors: {},
+        signUpErrors: {}
     },
     getters: {
         currentUser: state => {
             return state.current_user
+        },
+        signInErrors: state => {
+            return state.signInErrors
+        },
+        signUpErrors: state => {
+            return state.signUpErrors
         }
     },
     mutations: {
@@ -27,6 +35,12 @@ export const store = new Vuex.Store({
         },
         REMOVE_CURRENT_USER: state => {
             state.current_user = {}
+        },
+        SET_SIGN_IN_ERRORS: (state, payload) => {
+            state.signInErrors = payload.errors
+        },
+        SET_SIGN_UP_ERRORS: (state, payload) => {
+            state.signUpErrors = payload.errors
         }
     },
     actions: {
@@ -38,6 +52,7 @@ export const store = new Vuex.Store({
                     return response
                 })
                 .catch(error => {
+                    commit('SET_SIGN_IN_ERRORS', error.response.data)
                     return error.response
                 })
         },
@@ -48,16 +63,18 @@ export const store = new Vuex.Store({
                     dispatch('currentUser')
                 })
                 .catch(error => {
+                    commit('SET_SIGN_UP_ERRORS', error.response.data)
                     return error.response
                 })
         },
-        currentUser({ commit }) {
+        currentUser({ commit, dispatch }) {
             return axios.get('/users/current')
                 .then(response => {
                     commit('SET_CURRENT_USER', response.data)
                     return response.data
                 })
                 .catch(error => {
+                    dispatch('signOut')
                     return error.response
                 })
         },

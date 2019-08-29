@@ -7,6 +7,13 @@
                 type="email"
                 name="email"
                 >
+            <div class="errors" v-if="errors && errors.email">
+                <ul>
+                    <li v-for="(item, index) in errors.email">
+                        {{ item }}
+                    </li>
+                </ul>
+            </div>
         </p>
 
         <p>
@@ -16,8 +23,22 @@
                 type="password"
                 name="password"
                 >
+            <div class="errors" v-if="errors && errors.password">
+                <ul>
+                    <li v-for="(item, index) in errors.password">
+                        {{ item }}
+                    </li>
+                </ul>
+            </div>
         </p>
-        <p>
+        <p> 
+            <div class="errors" v-if="errors && errors.user">
+                <ul>
+                    <li v-for="(item, index) in errors.user">
+                        {{ item }}
+                    </li>
+                </ul>
+            </div>
             <input
             type="submit"
             value="Sign in"
@@ -30,10 +51,14 @@
 export default {
   data() {
       return {
-        errors: [],
         email: null,
         password: null
       }
+  },
+  computed: {
+    errors() {
+        return this.$store.getters.signInErrors
+    }
   },
   methods: {
       submitForm() {
@@ -43,9 +68,14 @@ export default {
           }
           this.$store.dispatch('signIn', data)
           .then(response => {
-              this.$router.push({ path: '/users/profile' })
+              if (response.status == 200) {
+                  this.$router.push({ path: '/users/profile' })
+              }
           })
       }
+  },
+  destroyed() {
+      this.$store.commit('SET_SIGN_IN_ERRORS', { errors: {} })
   }
 }
 </script>
