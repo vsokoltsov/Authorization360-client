@@ -45,15 +45,14 @@ export default {
   },
   computed: {
     emailErrors() {
-        const errors = [ 
+        return [ 
             { 'Field is required': !this.$v.email.required && this.$v.email.$model },
             { 'Does not match the email': !this.$v.email.email && this.$v.email.$model },
             ...((this.$store.getters.signInErrors || {}).email || [])
         ]
-        return errors
     },
     passwordErrors() {
-        const errors = [ 
+        return [ 
             { 'Field is required': !this.$v.password.required && this.$v.password.$model },
             ...((this.$store.getters.signInErrors || {}).password || [])
         ]
