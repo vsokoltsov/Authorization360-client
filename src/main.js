@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuelidate from 'vuelidate'
 import App from './App.vue'
 import { router } from './routes'
 import { store } from './store'
@@ -25,6 +26,7 @@ Vue.component('authorization-layout', Authorization)
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
+Vue.use(Vuelidate)
 
 new Vue({
   store,

@@ -10,7 +10,11 @@ export const store = new Vuex.Store({
     state: {
         current_user: {},
         signInErrors: {},
-        signUpErrors: {}
+        signUpErrors: {
+            email: [],
+            password: [],
+            passwordConfirmation: []
+        }
     },
     getters: {
         currentUser: state => {
