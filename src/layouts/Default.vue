@@ -1,11 +1,22 @@
 <template>
 <div class="base-layout">
-    <div class="header">
+    <b-navbar>
         HEADER
-        <button @click="signOut">Sign out</button>
-    </div>
-    <div class="content">
-        <router-view></router-view>
+        <template slot="end">
+            <b-navbar-item tag="div">
+                <div class="buttons">
+                    <b-button type="is-danger" @click="signOut">Sign out</b-button>
+                </div>
+            </b-navbar-item>
+        </template>
+    </b-navbar>
+    <div class="columns">
+        <div class="card navigation column is-narrow">
+            Navigation
+        </div>
+        <div class="column content card">
+            <router-view></router-view>
+        </div>
     </div>
 </div>
 </template>
@@ -21,3 +32,13 @@ export default {
     }
 }
 </script>
+
+<style lang="scss"> 
+    .navigation {
+        margin: 20px 0 20px 20px;
+    }
+
+    .content {
+        margin: 20px 20px 0 20px;
+    }
+</style>
