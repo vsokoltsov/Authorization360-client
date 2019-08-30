@@ -9,3 +9,9 @@
     <router-view class="auth pages"></router-view>
   </div>
 </template>
+
+<style>
+.auth.panel {
+  width: 25em;
+}
+</style>

@@ -4,24 +4,28 @@
                 label="Email"
                 :type="{ 'is-danger': errors.email }"
                 :message="errors.email">
-                <b-input type="email" v-model="email"></b-input>
+                <b-input
+                    placeholder="Email"
+                    type="email" 
+                    v-model="email"
+                    icon-pack="fas"
+                    icon="envelope">
+                </b-input>
             </b-field>
             <b-field 
                 label="Password"
                 :type="{ 'is-danger': errors.password }"
                 :message="errors.password">
-                <b-input type="password" v-model="password"></b-input>
+                <b-input
+                    placeholder="Password"
+                    type="password" 
+                    v-model="password" 
+                    icon-pack="fas"
+                    icon="lock"
+                    password-reveal>
+                </b-input>
             </b-field>
-        <p> 
-            <div class="errors" v-if="errors && errors.user">
-                <ul>
-                    <li v-for="(item, index) in errors.user">
-                        {{ item }}
-                    </li>
-                </ul>
-            </div>
-            <b-button tag="input" type="is-primary" native-type="submit">Sign in</b-button>
-        </p>
+            <b-button tag="input" type="is-primary" native-type="submit" value="Sign in" />
     </form>
 </template>
 

@@ -5,14 +5,23 @@ import { router } from './routes'
 import { store } from './store'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import Default from './layouts/Default.vue'
 import Authorization from './layouts/Authorization.vue'
 
-Vue.use(Buefy)
+library.add(fas)
+Vue.component('vue-fontawesome', FontAwesomeIcon)
+Vue.use(Buefy, {
+  defaultIconComponent: 'vue-fontawesome',
+  defaultIconPack: 'fas',
+})
 
 Vue.component('default-layout', Default)
 Vue.component('authorization-layout', Authorization)
+
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
