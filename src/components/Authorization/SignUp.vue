@@ -57,7 +57,12 @@
                 </ul>
             </div>
         </div>
-        <input class="button is-primary" type="submit" value="Sign up" />
+        <input 
+            class="button is-primary" 
+            type="submit" 
+            value="Sign up"
+            :disabled="$v.$invalid"
+        />
     </form>
 </template>
 
