@@ -1,35 +1,44 @@
 <template>
     <form @submit.prevent="submitForm">
-            <div>
-                <b-field 
-                    label="Email"
-                    :type="{ 'is-danger': $v.email.$invalid && $v.email.$model }"
-                    :message="emailErrors">
-                    <b-input
-                        placeholder="Email"
-                        type="email" 
-                        v-model="email"
-                        icon-pack="fas"
-                        icon="envelope">
-                    </b-input>
-                </b-field>
+        <div class="field">
+            <p class="control has-icons-left">
+                <input 
+                    class="input" 
+                    type="email" 
+                    placeholder="Email" 
+                    v-model="email" 
+                    v-bind:class="{ 'is-danger': emailErrors.length > 0 }" 
+                    />
+                <span class="icon is-small is-left">
+                    <font-awesome-icon icon="envelope" />
+                </span>
+            </p>
+            <div class="has-text-danger" :if="emailErrors">
+                <ul>
+                    <li v-bind:key="index" v-for="(error, index) in emailErrors">{{ error }}</li>
+                </ul>
             </div>
-            <div>
-                <b-field 
-                    label="Password"
-                    :type="{ 'is-danger': $v.password.$invalid && $v.password.$model }"
-                    :message="passwordErrors">
-                    <b-input
-                        placeholder="Password"
-                        type="password" 
-                        v-model="password" 
-                        icon-pack="fas"
-                        icon="lock"
-                        password-reveal>
-                    </b-input>
-                </b-field>
+        </div>
+        <div class="field">
+            <p class="control has-icons-left has-icons-right">
+                <input 
+                    class="input" 
+                    type="password" 
+                    placeholder="Password" 
+                    v-model="password" 
+                    v-bind:class="{ 'is-danger': passwordErrors.length > 0 }"
+                    />
+                <span class="icon is-small is-left">
+                    <font-awesome-icon icon="lock" />
+                </span>
+            </p>
+            <div class="has-text-danger" :if="passwordErrors">
+                <ul>
+                    <li v-bind:key="index" v-for="(error, index) in passwordErrors">{{ error }}</li>
+                </ul>
             </div>
-            <b-button tag="input" type="is-primary" native-type="submit" value="Sign in" :disabled="$v.$invalid" />
+        </div>
+        <input class="button is-primary" type="submit" value="Sign in" />
     </form>
 </template>
 
@@ -45,17 +54,40 @@ export default {
   },
   computed: {
     emailErrors() {
-        return [ 
-            { 'Field is required': !this.$v.email.required && this.$v.email.$model },
-            { 'Does not match the email': !this.$v.email.email && this.$v.email.$model },
-            ...((this.$store.getters.signInErrors || {}).email || [])
-        ]
+        let errors = []
+        const serverErrors = ((this.$store.getters.signInErrors || {}).email || [])
+
+        if (!this.$v.email.required && !!this.$v.email.$model) {
+            errors.push('Field is required')
+        }
+        if (!this.$v.email.email && !!this.$v.email.$model) {
+            errors.push('Does not match the email')
+        }
+        if (serverErrors) {
+            errors = [
+                ...errors,
+                ...serverErrors
+            ]
+        }
+
+        return errors
     },
     passwordErrors() {
-        return [ 
-            { 'Field is required': !this.$v.password.required && this.$v.password.$model },
-            ...((this.$store.getters.signInErrors || {}).password || [])
-        ]
+        let errors = []
+        const serverErrors = ((this.$store.getters.signInErrors || {}).password || [])
+
+        if (!this.$v.password.required && !!this.$v.password.$model) {
+            errors.push('Field is required')
+        }
+
+        if (serverErrors) {
+            errors = [
+                ...errors,
+                ...serverErrors
+            ]
+        }
+
+        return errors
     }
   },
   methods: {
