@@ -3,11 +3,26 @@ jobs:
   build:
     docker:
       - image: circleci/node:8.11.2
+    working_directory: ~/authorization360client
     steps:
       - checkout
       - run: 
           name: Install dependencies
           command: yarn install
+  unit_test:
+    docker:
+      - image: circleci/node:8.11.2
+    working_directory: ~/authorization360client
+    steps:
+      - run:
+          name: Run unit tests
+          command: yarn test:unit
+  e2e_test:
+    docker:
+      - image: circleci/node:8.11.2
+    working_directory: ~/authorization360client
+    steps:
       - run:
           name: Run tests
-          command: yarn test:unit
+          command: yarn test:e2e -- --headless
+    
