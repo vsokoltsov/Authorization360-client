@@ -1,15 +1,15 @@
 <template>
 <div class="base-layout">
-    <b-navbar>
+    <div>
         HEADER
-        <template slot="end">
-            <b-navbar-item tag="div">
+        <div slot="end">
+            <div>
                 <div class="buttons">
-                    <b-button type="is-danger" @click="signOut">Sign out</b-button>
+                    <button class="button is-danger" @click="signOut">Sign out</button>
                 </div>
-            </b-navbar-item>
-        </template>
-    </b-navbar>
+            </div>
+        </div>
+    </div>
     <div class="columns">
         <div class="card navigation column is-narrow">
             Navigation

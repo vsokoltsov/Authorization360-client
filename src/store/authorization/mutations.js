@@ -7,8 +7,8 @@ export default {
     REMOVE_TOKEN: () => {
         localStorage.removeItem(tokenName)
     },
-    SET_CURRENT_USER: (state, payload) => {
-        state.current_user = payload.current_user
+    SET_CURRENT_USER: (state, data) => {
+        state.current_user = data.current_user
     },
     REMOVE_CURRENT_USER: state => {
         state.current_user = {}

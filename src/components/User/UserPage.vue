@@ -16,6 +16,7 @@ export default {
     },
     computed: {
         currentUser() {
+            console.log('CURRENT USER IS', this.$store.getters.currentUser)
             return this.$store.getters.currentUser
         }
     }
