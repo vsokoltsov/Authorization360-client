@@ -25,4 +25,11 @@ jobs:
       - run:
           name: Run tests
           command: yarn test:e2e -- --headless
-    
+
+workflows:
+  version: 2
+  full_tests:
+    jobs:
+      - build
+      - unit_test
+      - e2e_test
