@@ -31,5 +31,9 @@ workflows:
   full_tests:
     jobs:
       - build
-      - unit_test
-      - e2e_test
+      - unit_test:
+          requires:
+            - build
+      - e2e_test:
+          requires:
+            - build
