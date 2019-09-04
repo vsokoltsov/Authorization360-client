@@ -10,12 +10,22 @@ localVue.component('font-awesome-icon', FontAwesomeIcon)
 localVue.use(Vuelidate)
 localVue.use(Vuex)
 
+jest.mock('axios')
+
 
 describe('SignIn', () => {
     let store
     let wrapper
+    let actions
+    let getters
 
     beforeEach(() => {
+        actions = {
+            signIn: jest.fn()
+        }
+        getters = {
+            signInErrors: jest.fn()
+        }
         store = new Vuex.Store({
             state: {
 
@@ -23,12 +33,8 @@ describe('SignIn', () => {
             mutations: {
 
             },
-            actions: {
-
-            },
-            getters: {
-
-            }
+            actions,
+            getters
         })
         wrapper = shallowMount(SignIn, {
             store,
@@ -41,6 +47,10 @@ describe('SignIn', () => {
         expect(wrapper.isVueInstance()).toBeTruthy()
     })
 
+    it('calls $getters after component rendering', () => {
+        expect(getters.signInErrors).toHaveBeenCalledTimes(1)
+    })
+
     it('tests failed email input validation', (done) => {
         wrapper.setData({ email: 'admin' })
         const emailFieldProps = wrapper.find('.is-danger')
@@ -49,8 +59,6 @@ describe('SignIn', () => {
             expect(wrapper.find('.is-danger').exists()).toBe(true)
             done()
         })
-        
-        
     })
 
     it('tests success email input validation', (done) => {
@@ -73,5 +81,11 @@ describe('SignIn', () => {
             expect(signInButton.attributes('disabled')).not.toBeDefined()
             done()
         })
+    })
+
+    it('calls the store "signIn" function when form is submitted', () => {
+        wrapper.setData({ email: 'admin@gmail.com', password: 'password' })
+        wrapper.find('form').trigger('submit')
+        expect(actions.signIn).toHaveBeenCalled()
     })
 })

@@ -105,12 +105,6 @@ export default {
               if (response.status == 200) {
                   this.$router.push({ path: '/users/profile' })
               }
-              if (response.status == 400) {
-                this.$buefy.toast.open({
-                    message: response.data.errors.user.join(),
-                    type: 'is-danger'
-                })    
-              }
           })
       }
   },
