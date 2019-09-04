@@ -27,7 +27,7 @@ jobs:
           command: yarn test:unit
   e2e_test:
     docker:
-      - image: circleci/node:8.11.2
+      - image: cypress/base:10
     steps:
       - checkout
       - run: 
