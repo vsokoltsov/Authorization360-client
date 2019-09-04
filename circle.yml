@@ -14,6 +14,7 @@ jobs:
       - image: circleci/node:8.11.2
     working_directory: ~/authorization360client
     steps:
+      - checkout
       - run:
           name: Run unit tests
           command: yarn test:unit
@@ -22,6 +23,7 @@ jobs:
       - image: circleci/node:8.11.2
     working_directory: ~/authorization360client
     steps:
+      - checkout
       - run:
           name: Run tests
           command: yarn test:e2e -- --headless
