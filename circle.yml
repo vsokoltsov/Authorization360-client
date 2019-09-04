@@ -19,6 +19,7 @@ jobs:
   unit_test:
     executor: node_executor
     steps:
+      - checkout
       - attach_workspace:
           at: /tmp/authorization360
       - run:
@@ -27,6 +28,7 @@ jobs:
   e2e_test:
     executor: node_executor
     steps:
+      - checkout
       - attach_workspace:
           at: /tmp/authorization360
       - run:
