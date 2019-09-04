@@ -1,14 +1,19 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import Vuelidate from 'vuelidate'
 import Vuex from 'vuex'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import SignIn from '@/components/Authorization/SignIn.vue'
 
 const localVue = createLocalVue()
+// Vue.config.ignoredElements = ['b-field', 'b-autocomplete']
+localVue.component('font-awesome-icon', FontAwesomeIcon)
 localVue.use(Vuelidate)
 localVue.use(Vuex)
 
+
 describe('SignIn', () => {
     let store
+    let wrapper
 
     beforeEach(() => {
         store = new Vuex.Store({
@@ -25,13 +30,48 @@ describe('SignIn', () => {
 
             }
         })
-    })
-
-    it ('test', () => {
-        const wrapper = shallowMount(SignIn, {
+        wrapper = shallowMount(SignIn, {
             store,
             localVue,
+            sync: false
         })
+    })
+
+    it ('expects to component exist', () => {
         expect(wrapper.isVueInstance()).toBeTruthy()
+    })
+
+    it('tests failed email input validation', (done) => {
+        wrapper.setData({ email: 'admin' })
+        const emailFieldProps = wrapper.find('.is-danger')
+        
+        wrapper.vm.$nextTick(() => {
+            expect(wrapper.find('.is-danger').exists()).toBe(true)
+            done()
+        })
+        
+        
+    })
+
+    it('tests success email input validation', (done) => {
+        const email = "admin@gmail.com"
+        wrapper.setData({ email: email })
+        
+        wrapper.vm.$nextTick(() => {
+            expect(wrapper.find('input[type="email"]').classes()).not.toContain('is-danger')
+            done()
+        })
+    })
+
+    it('expects sign in button to be available', (done) => {
+        const signInButton = wrapper.find('input[type="submit"]')
+        expect(signInButton.attributes('disabled')).toBeDefined()
+
+        wrapper.setData({ email: 'admin@gmail.com', password: 'password' })
+        
+        wrapper.vm.$nextTick(() => {
+            expect(signInButton.attributes('disabled')).not.toBeDefined()
+            done()
+        })
     })
 })

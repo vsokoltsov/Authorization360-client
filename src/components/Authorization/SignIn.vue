@@ -7,6 +7,7 @@
                     type="email" 
                     placeholder="Email" 
                     v-model="email" 
+                    @blur="$v.email.$touch()"
                     v-bind:class="{ 'is-danger': emailErrors.length > 0 }" 
                     />
                 <span class="icon is-small is-left">
@@ -73,7 +74,6 @@ export default {
                 ...serverErrors
             ]
         }
-
         return errors
     },
     passwordErrors() {
