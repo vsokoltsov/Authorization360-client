@@ -39,7 +39,7 @@
                 </ul>
             </div>
         </div>
-        <button 
+        <button
             class="button is-primary" 
             type="submit" 
             :class="{ 'is-loading': loading }" 

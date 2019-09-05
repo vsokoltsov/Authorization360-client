@@ -57,12 +57,12 @@
                 </ul>
             </div>
         </div>
-        <input 
+        <button
             class="button is-primary" 
-            type="submit" 
-            value="Sign up"
+            type="submit"
             :disabled="$v.$invalid"
-        />
+            :class="{ 'is-loading': loading }" 
+        >Sign up</button>
     </form>
 </template>
 
@@ -134,6 +134,9 @@ export default {
         }
 
         return errors
+    },
+    loading() {
+        return this.$store.getters.loading
     }
   },
   methods: {
