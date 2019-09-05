@@ -8,7 +8,7 @@
                     placeholder="Email" 
                     v-model="email" 
                     @blur="$v.email.$touch()"
-                    v-bind:class="{ 'is-danger': emailErrors.length > 0 }" 
+                    :class="{ 'is-danger': emailErrors.length > 0 }" 
                     />
                 <span class="icon is-small is-left">
                     <font-awesome-icon icon="envelope" />
@@ -39,11 +39,11 @@
                 </ul>
             </div>
         </div>
-        <input 
+        <button 
             class="button is-primary" 
             type="submit" 
-            value="Sign in"
-            :disabled="$v.$invalid" />
+            :class="{ 'is-loading': loading }" 
+            :disabled="$v.$invalid">Sign in</button>
     </form>
 </template>
 
@@ -92,6 +92,9 @@ export default {
         }
 
         return errors
+    },
+    loading() {
+        return this.$store.getters.loading
     }
   },
   methods: {

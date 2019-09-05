@@ -2,6 +2,7 @@ import axios from '../../utils/api'
 
 export default {
     signIn({ commit, dispatch }, data) {
+        commit('SET_LOADING')
         return axios.post('/sign_in', data)
             .then(response => {
                 commit('SET_TOKEN', response.data)
@@ -12,8 +13,12 @@ export default {
                 commit('SET_SIGN_IN_ERRORS', error.response.data)
                 return error.response
             })
+            .finally(() => {
+                commit('REMOVE_LOADING')
+            })
     },
     signUp({ commit, dispatch }, data) {
+        commit('SET_LOADING')
         return axios.post('/sign_up', data)
             .then(response => {
                 commit('SET_TOKEN', response.data)
@@ -22,6 +27,9 @@ export default {
             .catch(error => {
                 commit('SET_SIGN_UP_ERRORS', error.response.data)
                 return error.response
+            })
+            .finally(() => {
+                commit('REMOVE_LOADING')
             })
     },
     currentUser({ commit, dispatch }) {
