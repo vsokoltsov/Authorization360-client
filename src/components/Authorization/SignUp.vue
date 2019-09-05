@@ -43,6 +43,7 @@
                 <input 
                     class="input" 
                     type="password" 
+                    name="password-confirmation"
                     placeholder="Password confirmation" 
                     v-model="passwordConfirmation" 
                     v-bind:class="{ 'is-danger': passwordConfirmationErrors.length > 0 }"

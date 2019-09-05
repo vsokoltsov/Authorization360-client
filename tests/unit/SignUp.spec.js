@@ -2,7 +2,7 @@ import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import Vuelidate from 'vuelidate'
 import Vuex from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import SignIn from '@/components/Authorization/SignIn.vue'
+import SignUp from '@/components/Authorization/SignUp.vue'
 
 const localVue = createLocalVue()
 localVue.component('font-awesome-icon', FontAwesomeIcon)
@@ -11,8 +11,7 @@ localVue.use(Vuex)
 
 jest.mock('axios')
 
-
-describe('SignIn', () => {
+describe('SignUp', () => {
     let store
     let wrapper
     let actions
@@ -20,10 +19,10 @@ describe('SignIn', () => {
 
     beforeEach(() => {
         actions = {
-            signIn: jest.fn()
+            signUp: jest.fn()
         }
         getters = {
-            signInErrors: jest.fn()
+            signUpErrors: jest.fn()
         }
         store = new Vuex.Store({
             state: {
@@ -35,24 +34,24 @@ describe('SignIn', () => {
             actions,
             getters
         })
-        wrapper = shallowMount(SignIn, {
+        wrapper = shallowMount(SignUp, {
             store,
             localVue,
             sync: false
         })
     })
 
-    it ('expects to component exist', () => {
+    it('expects to component exist', () => {
         expect(wrapper.isVueInstance()).toBeTruthy()
     })
 
     it('calls $getters after component rendering', () => {
-        expect(getters.signInErrors).toHaveBeenCalledTimes(1)
+        expect(getters.signUpErrors).toHaveBeenCalledTimes(1)
     })
 
     it('tests failed email input validation', (done) => {
         wrapper.setData({ email: 'admin' })
-        
+
         wrapper.vm.$nextTick(() => {
             expect(wrapper.find('.is-danger').exists()).toBe(true)
             done()
@@ -62,9 +61,29 @@ describe('SignIn', () => {
     it('tests success email input validation', (done) => {
         const email = "admin@gmail.com"
         wrapper.setData({ email: email })
-        
+
         wrapper.vm.$nextTick(() => {
             expect(wrapper.find('input[type="email"]').classes()).not.toContain('is-danger')
+            done()
+        })
+    })
+
+    it('test failed passwordConfirmation validation', (done) => {
+        const email = "admin@gmail.com"
+        wrapper.setData({ email: email, password: 'password', passwordConfirmation: 'pass' })
+
+        wrapper.vm.$nextTick(() => {
+            expect(wrapper.find('input[name="password-confirmation"]').classes()).toContain('is-danger')
+            done()
+        })
+    })
+
+    it('test success passwordConfirmation validation', (done) => {
+        const email = "admin@gmail.com"
+        wrapper.setData({ email: email, password: 'password', passwordConfirmation: 'password' })
+
+        wrapper.vm.$nextTick(() => {
+            expect(wrapper.find('input[name="password-confirmation"]').classes()).not.toContain('is-danger')
             done()
         })
     })
@@ -73,17 +92,17 @@ describe('SignIn', () => {
         const signInButton = wrapper.find('button[type="submit"]')
         expect(signInButton.attributes('disabled')).toBeDefined()
 
-        wrapper.setData({ email: 'admin@gmail.com', password: 'password' })
-        
+        wrapper.setData({ email: 'admin@gmail.com', password: 'password', passwordConfirmation: 'password' })
+
         wrapper.vm.$nextTick(() => {
             expect(signInButton.attributes('disabled')).not.toBeDefined()
             done()
         })
     })
 
-    it('calls the store "signIn" function when form is submitted', () => {
-        wrapper.setData({ email: 'admin@gmail.com', password: 'password' })
+    it('calls the store "signUp" function when form is submitted', () => {
+        wrapper.setData({ email: 'admin@gmail.com', password: 'password', passwordConfirmation: 'password' })
         wrapper.find('form').trigger('submit')
-        expect(actions.signIn).toHaveBeenCalled()
+        expect(actions.signUp).toHaveBeenCalled()
     })
 })
