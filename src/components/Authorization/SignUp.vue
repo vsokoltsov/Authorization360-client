@@ -24,6 +24,7 @@
                 <input 
                     class="input" 
                     type="password" 
+                    name="password"
                     placeholder="Password" 
                     v-model="password" 
                     v-bind:class="{ 'is-danger': passwordErrors.length > 0 }"

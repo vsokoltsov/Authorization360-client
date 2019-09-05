@@ -26,6 +26,7 @@ export default {
             .then(response => {
                 commit('SET_TOKEN', response.data)
                 dispatch('currentUser')
+                return response
             })
             .catch(error => {
                 commit('SET_SIGN_UP_ERRORS', error.response.data)
