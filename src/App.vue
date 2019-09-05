@@ -1,18 +1,36 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class='root'>
+    <Notifications></Notifications>
+    <div id="app">
+      <component :is="layout">
+        <router-view></router-view>
+      </component>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { tokenName } from './utils/api'
+import Notifications from '@/components/Notifications/Notifications'
+
+const defaultLayout = 'default'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
-  }
+    Notifications
+  },
+  created() {
+    const token = localStorage.getItem(tokenName)
+    if (token) {
+      this.$store.dispatch('currentUser')
+    }
+  },
+  computed: {
+    layout() {
+      return `${(this.$route.meta.layout || defaultLayout)}-layout`
+    }
+  },
 }
 </script>
 
@@ -21,8 +39,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
