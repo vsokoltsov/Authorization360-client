@@ -1,7 +1,11 @@
 <template>
     <div class="notifications-list hover">
       <transition-group name="fade">
-        <div  v-for="(notification, index) in notifications" v-bind:key="notification.id" class="notification is-primary">
+        <div  
+          v-for="notification in notifications" 
+          v-bind:key="notification.id" 
+          class="notification center"
+          :class="notification.type ? `is-${notification.type}` : 'is-primary'">
             <button @click="removeNotification(notification)" class="delete"></button>
             {{ notification.text }}
           </div>
@@ -11,14 +15,6 @@
 
 <script>
 export default {
-  mounted() {
-    this.$store.watch(
-      (state, getters) => getters.notifications,
-      (newVal, oldVal) => {
-        console.log(newVal[0], oldVal[0])
-      }
-    )
-  },
   computed: {
     notifications() {
       return this.$store.getters.notifications

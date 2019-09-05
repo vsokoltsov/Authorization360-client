@@ -11,6 +11,9 @@ export default {
             })
             .catch(error => {
                 commit('SET_SIGN_IN_ERRORS', error.response.data)
+                error.response.data.errors.user.forEach(item => {
+                    dispatch('showNotification', { text: item, type: 'danger' })
+                })
                 return error.response
             })
             .finally(() => {
@@ -26,6 +29,9 @@ export default {
             })
             .catch(error => {
                 commit('SET_SIGN_UP_ERRORS', error.response.data)
+                error.response.data.errors.user.forEach(item => {
+                    dispatch('showNotification', { text: item, type: 'danger' })
+                })
                 return error.response
             })
             .finally(() => {

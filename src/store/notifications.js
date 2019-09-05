@@ -13,13 +13,12 @@ const mutations = {
         state.notifications.push(payload)
     },
     REMOVE_NOTIFICATION: (state, id) => {
-        console.log(state.notifications, id)
         state.notifications = state.notifications.filter(notif => notif.id !== id)
     }
 }
 
 const actions = {
-    showNotification({ commit, getters }, notification) {
+    showNotification({ commit }, notification) {
         const notificationId = state.notificationId + 1
         const timeOut = setTimeout(() => {
             commit('REMOVE_NOTIFICATION', notificationId)
